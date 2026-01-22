@@ -1,0 +1,4 @@
+echo .env > .gitignore
+echo data/minio_data/ >> .gitignore
+echo __pycache__/ >> .gitignore
+echo .pytest_cache/ >> .gitignore
