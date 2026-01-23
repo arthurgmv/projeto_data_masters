@@ -1,4 +1,22 @@
-echo .env > .gitignore
-echo data/minio_data/ >> .gitignore
-echo __pycache__/ >> .gitignore
-echo .pytest_cache/ >> .gitignore
+.env
+.env.backup
+credentials.json
+
+data/
+minio_data/
+spark-warehouse/
+metastore_db/
+derby.log
+
+__pycache__/
+*.py[cod]
+.pytest_cache/
+venv/
+.venv/
+
+.ipynb_checkpoints/
+
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
