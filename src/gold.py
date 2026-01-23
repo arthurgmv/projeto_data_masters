@@ -1,5 +1,11 @@
+import sys
+import os
 from pyspark.sql.functions import col, sum, count, desc, round
-from config import Config  
+
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+
+from config import Config
+from ui import print_tab 
 
 def processar_gold():
     print("🚀 [GOLD] Iniciando BI (Modo Híbrido)...")
@@ -29,8 +35,10 @@ def processar_gold():
         print(f"💾 Salvando em: {path_gold}")
         df_gold.write.mode("overwrite").parquet(path_gold)
         
+        # 4. VISUALIZAÇÃO (UI)
+        print_tab(df_gold, "GOLD (Ranking de Vendas/Estado)")
+        
         print("✅ Sucesso!")
-        df_gold.show(5, truncate=False)
 
     except Exception as e:
         print(f"❌ Erro: {e}")

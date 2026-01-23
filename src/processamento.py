@@ -1,47 +1,61 @@
+import sys
+import os
 from pyspark.sql.functions import col, regexp_replace
-from config import Config 
+
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+
+from config import Config
+from data_quality import DataQuality
+from ui import print_tab 
 
 def processar_silver():
-    print("🚀 Iniciando processamento SILVER (Modo Híbrido)...")
+    print("🚀 Iniciando processamento SILVER (Com Data Quality)...")
     
-    # 1. Pega a sessão (O Config decide se é Local ou Databricks)
-    spark = Config.get_spark_session("DataMasters_Silver")
-    spark.sparkContext.setLogLevel("WARN")
-
+    # 1. Setup
+    spark = Config.get_spark_session("SilverJob")
+    dq = DataQuality(spark)
+    
+    # 2. Leitura (Bronze)
+    path_bronze = f"{Config.get_base_path('bronze')}/raw/*.json" 
+    
     try:
-        path_bronze = f"{Config.get_base_path('bronze')}/raw/*/*/*/*.json"
-        path_silver = f"{Config.get_base_path('silver')}/transacoes_seguras"
-
-        # 1. LEITURA
-        print(f"📥 Lendo de: {path_bronze}")
-        df_bronze = spark.read.json(path_bronze)
-        
-        if df_bronze.count() == 0:
-            print("⚠️ Nada encontrado.")
-            return
-
-        # 2. TRANSFORMAÇÃO 
-        print("🛡️ Aplicando máscaras...")
-        df_silver = df_bronze.withColumn(
-            "cpf_mascarado", 
-            regexp_replace(col("cliente_cpf"), r"\d{3}\.\d{3}\.\d{3}", "***.***.***")
-        ).withColumn(
-            "cartao_tokenizado",
-            regexp_replace(col("cartao"), r"^\d{12}", "**** **** **** ")
-        ).drop("cliente_cpf", "cartao")
-
-        # 3. ESCRITA
-        print(f"💾 Salvando em: {path_silver}")
-        df_silver.write.mode("overwrite").parquet(path_silver)
-            
-        print("✅ Sucesso!")
-        df_silver.show(5, truncate=False)
-
+        df = spark.read.json(path_bronze)
     except Exception as e:
-        print(f"❌ Erro: {e}")
-    finally:
-        if not Config.IS_DATABRICKS:
-            spark.stop()
+        print(f"⚠️ Aviso: Tentando leitura recursiva. Erro anterior: {e}")
+        path_bronze_recursive = f"{Config.get_base_path('bronze')}/raw/*/*/*/*.json"
+        df = spark.read.json(path_bronze_recursive)
+
+    
+    # --- CHECKPOINT 1: OBSERVABILITY ---
+    dq.count_rows(df, "Bronze (Raw)")
+    
+    # --- CHECKPOINT 2: DATA QUALITY (Validações) ---
+    print("\n--- 🕵️ Executando Testes de Qualidade ---")
+    # Verifica se IDs ou Nomes vieram vazios
+    dq.check_nulls(df, ["id_transacao", "cliente_nome"])
+    # Verifica valores monetários
+    dq.check_positive_values(df, ["valor"])
+    print("------------------------------------------\n")
+
+    # 3. Transformação (LGPD - Privacy by Design)
+    print("🛡️ Aplicando máscaras LGPD...")
+    df_silver = df.withColumn(
+        "cpf_mascarado", 
+        regexp_replace(col("cliente_cpf"), r"\d{3}\.\d{3}\.\d{3}", "***.***.***")
+    ).withColumn(
+        "cartao_tokenizado",
+        regexp_replace(col("cartao"), r"^\d{12}", "**** **** **** ")
+    ).drop("cliente_cpf", "cartao")
+
+    # 4. Escrita (Silver)
+    path_silver = f"{Config.get_base_path('silver')}/transacoes_seguras"
+    print(f"💾 Salvando em: {path_silver}")
+    df_silver.write.mode("overwrite").parquet(path_silver)
+    
+    # 5. Visualização (UI)
+    print_tab(df_silver, "SILVER (Tratada & Anonimizada)")
+
+    print("✅ Sucesso! Pipeline Silver concluído com validações.")
 
 if __name__ == "__main__":
     processar_silver()

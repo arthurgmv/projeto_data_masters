@@ -3,11 +3,17 @@ import time
 import os
 import logging
 import random
+import sys
 from datetime import datetime
 from faker import Faker
 import boto3
 from botocore.exceptions import ClientError
 from dotenv import load_dotenv
+
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+
+from config import Config
+from ui import print_tab
 
 # --- CONFIGURAÇÃO: PRODUÇÃO ---
 SALVAR_LOCAL = False  # Gravar no Docker!
@@ -26,7 +32,7 @@ class IngestaoBronze:
         self.s3_client = self._conectar_minio()
 
     def _conectar_minio(self):
-        """Conecta ao Data Lake (MinIO)"""
+        """Conecta ao Data Lake (MinIO) via Boto3 para upload rápido"""
         try:
             return boto3.client(
                 's3',
@@ -69,8 +75,10 @@ class IngestaoBronze:
         logger.info("🚀 Iniciando ingestão no Data Lake...")
         self.criar_bucket_automatico()
         
+        ultimo_arquivo_path = ""
+
         for i in range(num_lotes):
-            dados = self.gerar_dados(50) # 50 transações por arquivo
+            dados = self.gerar_dados(50)
             
             # Organiza pastas: raw/ano/mes/dia
             agora = datetime.now()
@@ -85,12 +93,27 @@ class IngestaoBronze:
                     Body=corpo_json
                 )
                 logger.info(f"💾 Arquivo salvo: {nome_arquivo}")
+                ultimo_arquivo_path = nome_arquivo
             except Exception as e:
                 logger.error(f"❌ Erro ao salvar: {e}")
             
             time.sleep(1)
+        
+        if ultimo_arquivo_path:
+            logger.info("🔎 Gerando preview visual dos dados ingeridos...")
+            try:
+                spark = Config.get_spark_session("IngestaoPreview")
+                
+                full_path = f"{Config.get_base_path('bronze')}/{ultimo_arquivo_path}"
+                
+                df_preview = spark.read.json(full_path)
+                
+                print_tab(df_preview, "BRONZE (Raw JSON - Amostra Recente)")
+                
+            except Exception as e:
+                logger.warning(f"⚠️ Não foi possível gerar o preview visual: {e}")
 
 if __name__ == "__main__":
-    # Gera 3 arquivos de teste
+    
     pipeline = IngestaoBronze()
     pipeline.executar(num_lotes=3)
