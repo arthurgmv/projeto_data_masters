@@ -10,7 +10,6 @@ class DataQuality:
         self.logger = logging.getLogger("DataQuality")
 
     def check_nulls(self, df: DataFrame, columns: list):
-        """Verifica se há valores nulos em colunas críticas"""
         self.logger.info(f"🔍 Verificando Nulos nas colunas: {columns}")
         
         for c in columns:
@@ -21,7 +20,6 @@ class DataQuality:
                 self.logger.info(f"✅ Coluna '{c}' está íntegra (0 nulos).")
     
     def check_positive_values(self, df: DataFrame, columns: list):
-        """Garante que valores numéricos sejam positivos (ex: Vendas)"""
         self.logger.info(f"🔍 Verificando valores negativos: {columns}")
         
         for c in columns:
@@ -32,7 +30,6 @@ class DataQuality:
                 self.logger.info(f"✅ Coluna '{c}' contém apenas valores positivos.")
 
     def count_rows(self, df: DataFrame, stage_name: str):
-        """Métrica de volumetria (Observabilidade)"""
         count = df.count()
         self.logger.info(f"📊 [OBSERVABILITY] Total de linhas em {stage_name}: {count}")
         return count

@@ -50,7 +50,6 @@ def main():
     path_gold = f"{Config.get_base_path('gold')}/vendas_por_estado"
     inspecionar(spark, "Gold (Refined)", path_gold, "parquet")
 
-    # Encerra
     if not Config.IS_DATABRICKS:
         spark.stop()
 

@@ -9,9 +9,7 @@ class Config:
 
     @staticmethod
     def get_base_path(camada):
-        """
-        Define onde os arquivos serão salvos dependendo do ambiente.
-        """
+
         if Config.IS_DATABRICKS:
             return f"/tmp/data_masters/{camada}"
         else:
@@ -19,9 +17,6 @@ class Config:
 
     @staticmethod
     def get_spark_session(app_name="DataMasters_Job"):
-        """
-        Entrega a sessão Spark correta para cada ambiente.
-        """
         if Config.IS_DATABRICKS:
             return SparkSession.builder.getOrCreate()
         

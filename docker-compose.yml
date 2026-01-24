@@ -33,6 +33,9 @@ services:
     ports:
       - "8080:8080"
       - "7077:7077"
+    volumes:
+      - ./:/app
+    working_dir: /app
     command: /opt/spark/bin/spark-class org.apache.spark.deploy.master.Master
     networks:
       - datamasters_net
