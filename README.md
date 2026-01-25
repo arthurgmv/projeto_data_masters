@@ -50,10 +50,6 @@ graph TD
 
 Below is the abstract view of the data flow. The pipeline follows the Medallion Architecture, where data is progressively refined across layers.
 
-## 🏗️ Data Pipeline Overview (Architecture)
-
-Below is the abstract view of the data flow. The pipeline follows the Medallion Architecture, where data is progressively refined across layers.
-
 ```mermaid
 flowchart LR
     %% Nós
@@ -100,7 +96,7 @@ flowchart LR
 
 ## 🛡️ Project Differentiators
 
-## 1. Data Quality First
+### 1. Data Quality First
 
 Unlike traditional pipelines that only move data, this project enforces explicit quality gates.
 
@@ -108,7 +104,7 @@ Unit Tests: Transformation logic validated with pytest.
 
 Runtime Validation: Critical null or negative values are blocked before promotion to Silver.
 
-## 2. Privacy & LGPD Compliance
+### 2. Privacy & LGPD Compliance
 
 Practical implementation of Privacy by Design.
 
@@ -120,7 +116,7 @@ CPF: ***.***.***-XX
 
 Credit Card: **** **** **** 1234
 
-## 3. Fully Containerized Infrastructure
+### 3. Fully Containerized Infrastructure
 
 The same pipeline runs identically on:
 
