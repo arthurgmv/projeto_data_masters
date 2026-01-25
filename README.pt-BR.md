@@ -4,8 +4,6 @@
   <strong>Choose your language:</strong><br>
   <a href="README.md">🇺🇸 English</a> |
   <a href="README.pt-BR.md">🇧🇷 Português</a> |
-  <a href="README.es.md">🇪🇸 Español</a> |
-  <a href="README.ja.md">🇯🇵 日本語</a>
 </p>
 
 ---
