@@ -172,6 +172,6 @@ minioadmin
 
 ## 📞 Contact
 
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-Arthur%20Gabriel-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/arthur-gabriel-de-menezes-viana-4b0690201/)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Arthur%20Gabriel-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/arthur-gabriel-de-menezes-viana-1223a6239/)
 
 
