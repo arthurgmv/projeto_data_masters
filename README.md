@@ -1,4 +1,4 @@
-# 🦁 Data Masters – End-to-End Data Engineering Pipeline
+# 🔥 Data Masters – End-to-End Data Engineering Pipeline
 
 <p align="center">
   <strong>Choose your language:</strong><br>
