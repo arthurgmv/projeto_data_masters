@@ -161,14 +161,14 @@ docker exec spark_master python3 src/pipeline.py
 ```
 ## 📊 Accessing Results
 
-### MinIO Console (Data Lake): http://localhost:9001
+<b>MinIO Console (Data Lake)</b>: http://localhost:9001
 
-### User: 
+<b>User</b>: 
 minioadmin
-### Password: 
+<b>Password</b>: 
 minioadmin
 
-### Spark Master UI: http://localhost:8080
+<b>Spark Master UI</b>: http://localhost:8080
 
 ## 📞 Contact
 
