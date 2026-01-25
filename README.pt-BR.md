@@ -1,4 +1,4 @@
-# 🔥Data Masters – Pipeline de Engenharia de Dados End-to-End
+# 🔥 Data Masters – Pipeline de Engenharia de Dados End-to-End
 
 <p align="center">
   <strong>Choose your language:</strong><br>
@@ -75,16 +75,34 @@ flowchart LR
 
 ---
 
-## 🛠️ Stack Tecnológica & Decisões Técnicas
+## 🧠 Engenharia: Decisões Arquiteturais e Trade-offs
 
-| Tecnologia                  | Papel                  | Decisão Técnica                                                           |
-| --------------------------- | ---------------------- | ------------------------------------------------------------------------- |
-| **Docker & Docker Compose** | Infraestrutura         | Isolamento completo do ambiente e eliminação de conflitos entre sistemas. |
-| **Apache Spark**            | Motor de Processamento | Processamento distribuído para workloads de Big Data.                     |
-| **MinIO**                   | Data Lake              | Storage compatível com S3 simulando ambiente cloud real.                  |
-| **Python 3.12**             | Linguagem              | Orquestração do pipeline e scripts auxiliares.                            |
-| **Pytest**                  | Qualidade de Dados     | Testes unitários para evitar propagação de dados incorretos.              |
-| **Parquet**                 | Formato de Arquivo     | Armazenamento colunar otimizado para analytics (Silver & Gold).           |
+Este projeto foi desenhado simulando um cenário real, onde cada escolha técnica visou resolver um problema específico de negócio ou infraestrutura.
+
+| Decisão | O Problema | A Solução Adotada | Por que não a alternativa? |
+| :--- | :--- | :--- | :--- |
+| **Containerização Total** | O ambiente Windows frequentemente conflita com bibliotecas Hadoop/Spark nativas do Linux (`winutils.exe`). | **Docker & Docker Compose.** Criamos um ambiente Linux isolado que roda o Spark de forma nativa. | Rodar localmente no Windows traria instabilidade e dificultaria a reprodução do projeto em outras máquinas ("Works on my machine"). |
+| **MinIO (S3)** | Necessidade de simular um Data Lake em nuvem sem gerar custos de AWS/Azure. | **MinIO Server.** Ele utiliza exatamente a mesma API do Amazon S3 (`boto3` / `s3a://`). | Usar o sistema de arquivos local (`file://`) não prepararia o código para uma migração real para a nuvem (Cloud Native). |
+| **Orquestração Customizada** | Pipelines de dados precisam de tratamento de erro, logs e dependência entre tarefas. | **Script Python (`pipeline.py`).** Controle total do fluxo de execução com `try/catch` e logs estruturados. | **Por que não Airflow neste momento?** Para este escopo, subir um cluster Airflow (Webserver + Scheduler + Worker) adicionaria um *overhead* de infraestrutura desnecessário. A lógica atual é facilmente portável para uma DAG no futuro. |
+| **Formato Parquet** | Armazenamento de Big Data requer compressão e leitura eficiente. | **Apache Parquet (Snappy).** Padrão de mercado para Analytics. | CSVs não mantêm schema (tipagem) e são lentos para leitura. O Parquet garante performance na camada Silver/Gold. |
+
+---
+## 🔮 Roadmap e Melhorias Futuras
+
+O desenvolvimento de software é iterativo. Abaixo, listo as evoluções planejadas para levar este projeto ao próximo nível de maturidade (Enterprise Level).
+
+* [ ] **Migração para Delta Lake:**
+    * *Objetivo:* Implementar transações ACID e *Time Travel*.
+    * *Contexto:* Atualmente utilizo **Parquet** padrão para demonstrar o domínio da manipulação de arquivos brutos no Spark, mas a evolução natural do Lakehouse é o formato Delta para garantir *Schema Enforcement*.
+* [ ] **Orquestração com Airflow:**
+    * *Objetivo:* Monitoramento visual, retries automáticos e backfilling.
+    * *Contexto:* A lógica de orquestração já está desacoplada no script `src/pipeline.py`, o que facilita a migração para `PythonOperator` ou `SparkSubmitOperator` dentro de uma DAG do Airflow.
+* [ ] **CI/CD (GitHub Actions):**
+    * *Objetivo:* Automatizar a execução dos testes (`pytest`) a cada Push ou Pull Request.
+* [ ] **Dashboarding:**
+    * *Objetivo:* Conectar o Power BI ou Metabase diretamente ao MinIO (via Thrift Server ou Presto) para consumir a camada Gold.
+
+---
 
 ## 🛡️ Diferenciais do Projeto
 ### 1. Qualidade de Dados como Prioridade
@@ -121,32 +139,34 @@ Ambientes Cloud
 
 Eliminando o clássico problema: <b>“na minha máquina funciona”</b>.
 
+
+
 ## 🚀 Como Executar o Projeto
-Pré-requisitos
+### Pré-requisitos
 
 Docker Desktop (em execução)
 
 Git
 
-## Clonar o repositório
+### Clonar o repositório
 ```
 git clone https://github.com/arthurgmv/projeto_data_masters.git
 cd projeto_data_masters
 ```
 
-## Subir a infraestrutura
+### Subir a infraestrutura
 ```
 docker-compose up -d
 ```
-## Instalar dependências no cluster Spark
+### Instalar dependências no cluster Spark
 ```
 docker exec spark_master pip install boto3 python-dotenv pytest faker colorama pyspark
 ```
-## Executar testes de qualidade de dados
+### Executar testes de qualidade de dados
 ```
 docker exec spark_master pytest -v /app/tests/
 ```
-## Executar o pipeline completo
+### Executar o pipeline completo
 ```
 docker exec spark_master python3 src/pipeline.py
 ```
