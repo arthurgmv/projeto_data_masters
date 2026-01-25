@@ -49,7 +49,7 @@ Abaixo está a visão abstrata do fluxo de dados. O pipeline segue a <b>Arquitet
 flowchart LR
     Generator(["Gerador de Dados (Python Faker)"])
 
-    subgraph Lakehouse ["Data Lakehouse - MinIO (Compatível com S3)"]
+    subgraph Lakehouse ["Data Lakehouse - MinIO"]
         direction LR
         Bronze[("Camada Bronze (JSON Bruto)")]
         Silver[("Camada Silver (Parquet Confiável)")]
