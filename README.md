@@ -81,16 +81,33 @@ flowchart LR
 
 ```
 
-## 🛠️ Tech Stack & Technical Decisions
+## 🧠 Engineering: Architectural Decisions & Trade-offs
+This project was designed to simulate a real-world scenario, where each technical decision was made to solve a specific business or infrastructure problem.
 
-| Technology                  | Role              | Technical Decision                                                  |
-| --------------------------- | ----------------- | ------------------------------------------------------------------- |
-| **Docker & Docker Compose** | Infrastructure    | Full environment isolation and elimination of OS-related conflicts. |
-| **Apache Spark**            | Processing Engine | Distributed processing for scalable Big Data workloads.             |
-| **MinIO**                   | Data Lake         | S3-compatible object storage simulating a real cloud environment.   |
-| **Python 3.12**             | Language          | Pipeline orchestration and auxiliary scripting.                     |
-| **Pytest**                  | Data Quality / QA | Unit tests to prevent bad data propagation.                         |
-| **Parquet**                 | File Format       | Columnar storage optimized for analytics (Silver & Gold layers).    |
+| Decision                  | The Problem                                                                                        | Adopted Solution                                                                                                    | Why not the alternative?                                                                                                                                                                                             |
+| :------------------------ | :------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------ | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Full Containerization** | The Windows environment often conflicts with native Linux Hadoop/Spark libraries (`winutils.exe`). | **Docker & Docker Compose.** We created an isolated Linux environment where Spark runs natively.                    | Running Spark directly on Windows would introduce instability and make the project harder to reproduce across different machines (“works on my machine” issue).                                                      |
+| **MinIO (S3)**            | The need to simulate a cloud-based Data Lake without incurring AWS/Azure costs.                    | **MinIO Server.** It uses the exact same API as Amazon S3 (`boto3` / `s3a://`).                                     | Using the local filesystem (`file://`) would not prepare the codebase for a real cloud migration (Cloud Native approach).                                                                                            |
+| **Custom Orchestration**  | Data pipelines require error handling, logging, and task dependencies.                             | **Python script (`pipeline.py`).** Full control over execution flow with `try/catch` blocks and structured logging. | **Why not Airflow yet?** For this scope, deploying a full Airflow stack (Webserver + Scheduler + Worker) would add unnecessary infrastructure overhead. The current logic is easily portable to a DAG in the future. |
+| **Parquet File Format**   | Big Data storage requires compression and efficient read performance.                              | **Apache Parquet (Snappy).** Industry standard for analytics workloads.                                             | CSV files do not enforce schema (data types) and are inefficient for analytical reads. Parquet ensures high performance in the Silver and Gold layers.                                                               |
+
+## 🔮 Roadmap & Future Improvements
+
+Software development is iterative. Below are the planned enhancements to bring this project to the next level of maturity (Enterprise Level).
+
+* [ ] **Migration to Delta Lake**
+    * *Goal:* Enable ACID transactions and *Time Travel*.
+    * *Context:* The project currently uses standard **Parquet** to demonstrate hands-on control over raw Spark file handling. However, the natural evolution of a Lakehouse architecture is Delta Lake, which provides *Schema Enforcement* and transactional guarantees.
+
+* [ ] **Orchestration with Airflow**
+    * *Goal:* Visual monitoring, automated retries, and backfilling.
+    * *Context:* The orchestration logic is already decoupled within the `src/pipeline.py` script, making it straightforward to migrate to `PythonOperator` or `SparkSubmitOperator` inside an Airflow DAG.
+
+* [ ] **CI/CD (GitHub Actions)**
+    * *Goal:* Automatically run unit tests (`pytest`) on every push or pull request.
+
+* [ ] **Dashboarding**
+    * *Goal:* Connect Power BI or Metabase directly to MinIO (via Thrift Server or Presto) to consume data from the Gold layer.
 
 ## 🛡️ Project Differentiators
 
