@@ -43,6 +43,15 @@ graph TD
     end
 ```
 ---
+## 📖 Conceptual Background
+
+> *“Data engineering is a set of operations aimed at creating interfaces and mechanisms for the flow and access of information.  
+> It takes dedicated specialists – data engineers – to maintain data so that it remains available and usable by others.  
+> In short, data engineers set up and operate the organization’s data infrastructure, preparing it for further analysis by data analysts and scientists.”*  
+> — AlterSoft, *Data Engineering Concepts, Processes, and Tools*
+
+This project was designed to reflect this definition in practice, focusing on data availability, reliability, quality, and readiness for analytical consumption.
+
 
 ## 🏗️ Data Pipeline Overview (Architecture)
 
@@ -174,7 +183,7 @@ docker exec spark_master pytest -v /app/tests/
 ```
 docker exec spark_master python3 src/pipeline.py
 ```
-## 📊 Accessing Results
+## 📊 Accessing Data
 
 <b>MinIO Console (Data Lake)</b>: http://localhost:9001
 
