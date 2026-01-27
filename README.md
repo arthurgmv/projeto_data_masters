@@ -27,6 +27,7 @@ The project followed a structured lifecycle to ensure that **infrastructure stab
 
 ```mermaid
 graph TD
+    classDef study fill:#636e72,stroke:#fff,stroke-width:2px,color:#fff;
     classDef planning fill:#2d3436,stroke:#fff,stroke-width:2px,color:#fff;
     classDef infra fill:#0984e3,stroke:#fff,stroke-width:2px,color:#fff;
     classDef code fill:#00b894,stroke:#fff,stroke-width:2px,color:#fff;
@@ -34,7 +35,8 @@ graph TD
 
     subgraph Timeline [Project Lifecycle]
         direction TB
-        A(1. Planning & Architecture):::planning --> B(2. Docker Infrastructure & MinIO):::infra
+        Z(0. Conceptual Foundation & Study):::study --> A(1. Planning & Architecture):::planning
+        A --> B(2. Docker Infrastructure & MinIO):::infra
         B --> C(3. Ingestion – Bronze Layer):::code
         C --> D(4. Testing Framework & Data Quality):::code
         D --> E(5. Processing & LGPD – Silver Layer):::code
