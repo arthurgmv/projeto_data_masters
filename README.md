@@ -179,7 +179,7 @@ docker exec spark_master python3 src/pipeline.py
 <b>MinIO Console (Data Lake)</b>: http://localhost:9001
 
 <b>User</b>: 
-minioadmin
+admin
 <b>Password</b>: 
 minioadmin
 
