@@ -137,7 +137,7 @@ Bronze Layer: Raw and restricted data.
 
 Silver Layer: Anonymized data:
 
-CPF: ***.***.***-XX
+CPF: *** *** ***-XX
 
 Credit Card: **** **** **** 1234
 
