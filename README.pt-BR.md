@@ -40,6 +40,16 @@ graph TD
     end
 ```
 
+## 📖 Contexto Conceitual
+
+> *“A engenharia de dados é um conjunto de operações destinadas a criar interfaces e mecanismos para o fluxo e o acesso à informação.  
+> São necessários especialistas dedicados — engenheiros de dados — para manter os dados disponíveis e utilizáveis por outros.  
+> Em suma, os engenheiros de dados criam e operam a infraestrutura de dados da organização, preparando-a para análises posteriores por analistas e cientistas de dados.”*  
+> — AlterSoft, *Data Engineering Concepts, Processes, and Tools*
+
+Este projeto foi concebido para refletir essa definição na prática, com foco em **disponibilidade**, **confiabilidade**, **qualidade dos dados** e **prontidão para consumo analítico**.
+
+
 ## 🏗️ Visão Geral do Pipeline de Dados (Arquitetura)
 
 Abaixo está a visão abstrata do fluxo de dados. O pipeline segue a <b>Arquitetura Medallion</b>, onde os dados são refinados progressivamente a cada camada.
@@ -170,7 +180,7 @@ docker exec spark_master pytest -v /app/tests/
 ```
 docker exec spark_master python3 src/pipeline.py
 ```
-## 📊 Acesso aos Resultados
+## 📊 Acesso aos Dados
 
 <b>Console do MinIO (Data Lake)</b>
 http://localhost:9001
