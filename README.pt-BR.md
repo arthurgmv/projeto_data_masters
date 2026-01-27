@@ -42,12 +42,14 @@ graph TD
 
 ## 📖 Contexto Conceitual
 
-> *“A engenharia de dados é um conjunto de operações destinadas a criar interfaces e mecanismos para o fluxo e o acesso à informação.  
+> “A engenharia de dados é um conjunto de operações destinadas a criar interfaces e mecanismos para o fluxo e o acesso à informação.  
 > São necessários especialistas dedicados — engenheiros de dados — para manter os dados disponíveis e utilizáveis por outros.  
-> Em suma, os engenheiros de dados criam e operam a infraestrutura de dados da organização, preparando-a para análises posteriores por analistas e cientistas de dados.”*  
-> — AlterSoft, *Data Engineering Concepts, Processes, and Tools*
+> Em suma, os engenheiros de dados criam e operam a infraestrutura de dados da organização, preparando-a para análises posteriores por analistas e cientistas de dados.”
+>
+> — **AltexSoft**, *Data Engineering Concepts, Processes, and Tools* (citado em *Fundamentos de Engenharia de Dados*, O’Reilly)
 
-Este projeto foi concebido para refletir essa definição na prática, com foco em **disponibilidade**, **confiabilidade**, **qualidade dos dados** e **prontidão para consumo analítico**.
+Este projeto foi concebido para refletir essa definição na prática, com foco em **disponibilidade dos dados**, **confiabilidade**, **qualidade** e **prontidão para consumo analítico**.
+
 
 
 ## 🏗️ Visão Geral do Pipeline de Dados (Arquitetura)
