@@ -24,6 +24,7 @@ O projeto seguiu um ciclo estruturado para garantir que a <b>estabilidade da inf
 
 ```mermaid
 graph TD
+    classDef study fill:#636e72,stroke:#fff,stroke-width:2px,color:#fff;
     classDef planning fill:#2d3436,stroke:#fff,stroke-width:2px,color:#fff;
     classDef infra fill:#0984e3,stroke:#fff,stroke-width:2px,color:#fff;
     classDef code fill:#00b894,stroke:#fff,stroke-width:2px,color:#fff;
@@ -31,7 +32,8 @@ graph TD
 
     subgraph Timeline [Ciclo de Vida do Projeto]
         direction TB
-        A(1. Planejamento & Arquitetura):::planning --> B(2. Infraestrutura Docker & MinIO):::infra
+        Z(0. Fundamentos Conceituais & Estudo do Domínio):::study --> A(1. Planejamento & Arquitetura):::planning
+        A --> B(2. Infraestrutura Docker & MinIO):::infra
         B --> C(3. Ingestão – Camada Bronze):::code
         C --> D(4. Framework de Testes & Qualidade de Dados):::code
         D --> E(5. Processamento & LGPD – Camada Silver):::code
