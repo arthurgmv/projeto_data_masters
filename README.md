@@ -52,7 +52,7 @@ graph TD
 > In short, data engineers set up and operate the organization’s data infrastructure, preparing it for further analysis by data analysts and scientists.”*  
 >
 > — **AltexSoft**, *Data Engineering Concepts, Processes, and Tools*  
-> *(Cited in* **Fundamentals of Data Engineering**, O’Reilly*)*
+> (Cited in* **Fundamentals of Data Engineering**, O’Reilly*)
 
 This project was designed to reflect this definition in practice, with a strong focus on **data availability**, **reliability**, **quality**, and **readiness for analytical consumption**.
 
