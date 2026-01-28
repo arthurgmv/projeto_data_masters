@@ -86,6 +86,32 @@ flowchart LR
     Silver -->|Leitura| Aggregator
     Aggregator -->|Escrita Agregada| Gold
 ```
+## 🏛️ Contexto Arquitetural e Justificativa
+
+A adoção da arquitetura **Lakehouse / Medallion** neste projeto **não foi arbitrária**. Ela decorre de um estudo comparativo entre arquiteturas modernas de dados, fundamentado nos critérios de **custo, complexidade operacional e amplitude de casos de uso**, conforme discutido por **James Serra** em *Decifrando Arquiteturas de Dados* (O’Reilly), além de conceitos consolidados em *Fundamentos de Engenharia de Dados* (O’Reilly).
+
+### ❌ Por que não um Data Warehouse tradicional?
+Embora Data Warehouses ofereçam **baixa latência e forte consistência**, apresentam **alto custo de licenciamento e manutenção**, além de **limitações para dados semiestruturados, não estruturados e workloads analíticos avançados**, como Machine Learning e Data Science.
+
+### ❌ Por que não apenas um Data Lake?
+Apesar do **baixo custo de armazenamento em objetos**, Data Lakes puros tendem a sofrer com **falta de governança, semântica e controle de qualidade**, levando ao conhecido fenômeno de *Data Swamp*, o que dificulta o consumo analítico confiável.
+
+### ❌ Por que não Data Mesh ou Data Fabric?
+Arquiteturas como **Data Mesh** e **Data Fabric** são conceitualmente robustas, porém exigem **alta maturidade organizacional**, **domínios bem definidos**, **times descentralizados** e um conjunto amplo de habilidades técnicas e culturais — classificados por Serra como arquiteturas de **alta complexidade operacional**. Esses requisitos extrapolariam o escopo e os objetivos deste projeto.
+
+---
+
+### 🏆 A Escolha: Lakehouse com Arquitetura Medallion
+
+A arquitetura **Lakehouse**, estruturada no padrão **Medallion (Bronze, Silver e Gold)**, foi selecionada por representar o **melhor equilíbrio técnico** para o cenário corporativo simulado neste case:
+
+1. **Custo-Eficiência:** Uso de armazenamento em objetos (MinIO/S3-compatible) com baixo custo e alta escalabilidade.
+2. **Versatilidade Analítica:** Suporte tanto a BI tradicional quanto a workloads de Ciência de Dados e Machine Learning.
+3. **Governança Pragmática:** Organização em camadas promove qualidade, rastreabilidade e evolução progressiva dos dados, sem a rigidez excessiva de um Data Warehouse legado.
+
+Essa abordagem reflete práticas amplamente adotadas em ambientes corporativos modernos, conciliando **robustez arquitetural**, **simplicidade operacional** e **aderência aos objetivos do projeto**.
+
+> *Embora a implementação tenha sido consolidada em um curto período, este projeto é resultado de mais de um ano de estudo contínuo e preparação em Engenharia de Dados, refletindo decisões arquiteturais conscientes e fundamentadas.*
 
 ---
 
