@@ -92,6 +92,32 @@ flowchart LR
     Aggregator -->|Agg Write| Gold
 
 ```
+## 🏛️ Architectural Context and Rationale
+
+The adoption of the **Lakehouse / Medallion** architecture in this project was **not arbitrary**. It results from a comparative study of modern data architectures, grounded in criteria such as **cost, operational complexity, and breadth of use cases**, as discussed by **James Serra** in *Deciphering Data Architectures* (O’Reilly), alongside core principles from *Fundamentals of Data Engineering* (O’Reilly).
+
+### ❌ Why not a traditional Data Warehouse?
+Although Data Warehouses provide **low latency and strong consistency**, they typically involve **high licensing and maintenance costs** and offer **limited support for semi-structured, unstructured data and advanced analytical workloads**, such as Machine Learning and Data Science.
+
+### ❌ Why not a pure Data Lake?
+Despite the **low cost of object storage**, pure Data Lakes often suffer from **weak governance, limited semantic structure, and inconsistent data quality**, leading to the well-known *Data Swamp* problem, which hinders reliable analytical consumption.
+
+### ❌ Why not Data Mesh or Data Fabric?
+Architectures such as **Data Mesh** and **Data Fabric** are conceptually powerful but require **high organizational maturity**, **well-defined data domains**, **decentralized teams**, and a broad set of technical and cultural skills. According to Serra, these approaches introduce **high operational complexity**, which would exceed the intended scope and objectives of this project.
+---
+
+### 🏆 The Choice: Lakehouse with Medallion Architecture
+
+The **Lakehouse** architecture, structured using the **Medallion pattern (Bronze, Silver, and Gold)**, was selected for representing the **optimal technical balance** for the simulated corporate scenario addressed in this case:
+
+1. **Cost Efficiency:** Low-cost, scalable object storage (MinIO / S3-compatible).
+2. **Analytical Versatility:** Supports both traditional BI workloads and Data Science / Machine Learning use cases.
+3. **Pragmatic Governance:** Layered data organization promotes quality, traceability, and progressive data refinement without the excessive rigidity of legacy Data Warehouses.
+
+This approach reflects practices widely adopted in modern enterprise environments, balancing **architectural robustness**, **operational simplicity**, and **alignment with the project’s objectives**.
+
+> *Although the implementation was consolidated over a short period, this project is the result of more than a year of continuous study and preparation in Data Engineering, with consciously made and well-founded architectural decisions.*
+
 
 ## 🧠 Engineering: Architectural Decisions & Trade-offs
 This project was designed to simulate a real-world scenario, where each technical decision was made to solve a specific business or infrastructure problem.
