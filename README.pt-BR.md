@@ -193,6 +193,15 @@ Git
 git clone https://github.com/arthurgmv/projeto_data_masters.git
 cd projeto_data_masters
 ```
+### Configurar Variáveis de Ambiente (Passo Crucial) ⚠️
+O projeto utiliza variáveis de ambiente para garantir a segurança das credenciais. Você deve criar um arquivo `.env` baseado no exemplo fornecido.
+```
+# Linux / Mac
+cp .env.example .env
+
+# Windows (Prompt de Comando / PowerShell)
+copy .env.example .env
+```
 
 ### Subir a infraestrutura
 ```
