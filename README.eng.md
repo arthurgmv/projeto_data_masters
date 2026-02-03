@@ -195,9 +195,6 @@ Steps
 git clone https://github.com/arthurgmv/projeto_data_masters.git
 cd projeto_data_masters
 ```
-<<<<<<< HEAD
-
-=======
 ### Configure Environment Variables (Crucial Step) ⚠️
 The project relies on environment variables for security. You must create a .env file based on the provided example.
 ```
@@ -207,7 +204,6 @@ cp .env.example .env
 # Windows (Command Prompt / PowerShell)
 copy .env.example .env
 ```
->>>>>>> d297535b07ef79b40708cca787d5e5e39388e51c
 ### Start the infrastructure
 ```
 docker-compose up -d
