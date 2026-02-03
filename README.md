@@ -1,9 +1,9 @@
-# 🔥 Data Masters – End-to-End Data Engineering Pipeline
+# 🔥 Data Masters – Pipeline de Engenharia de Dados End-to-End
 
 <p align="center">
   <strong>Choose your language:</strong><br>
-  <a href="README.md">🇺🇸 English</a> |
-  <a href="README.pt-BR.md">🇧🇷 Português</a>
+  <a href="README.eng.md">🇺🇸 English</a> |
+  <a href="README.md">🇧🇷 Português</a> |
 </p>
 
 ---
@@ -14,16 +14,13 @@
 ![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?style=for-the-badge&logo=docker&logoColor=white)
 ![Tests](https://img.shields.io/badge/Pytest-Passing-0A9EDC?style=for-the-badge&logo=pytest&logoColor=white)
 
-This project simulates a **real-world corporate Data Engineering environment**, implementing a fully **End-to-End data pipeline** based on the **Lakehouse / Medallion Architecture**.
+Este projeto simula um <b>ambiente corporativo real de Engenharia de Dados</b>, implementando um <b>pipeline End-to-End completo</b>, baseado na arquitetura <b>Lakehouse / Medallion</b>.
+O objetivo principal foi construir uma <b>infraestrutura resiliente e independente de sistema operacional</b>, resolvendo problemas clássicos de compatibilidade entre <b>Apache Spark e Windows</b> por meio de <b>containerização total com Docker</b>.
+Além disso, o projeto possui forte foco em <b>Qualidade de Dados e conformidade com a LGPD</b>.
 
-The main goal was to build a **resilient and OS-agnostic infrastructure**, overcoming common **Apache Spark + Windows compatibility issues** through **full Docker containerization**.  
-Additionally, the project strongly focuses on **Data Quality** and **LGPD (Brazilian GDPR) compliance**.
+## 📅 Ciclo de Vida do Projeto – Fases de Desenvolvimento
 
----
-
-## 📅 Project Lifecycle – Development Phases
-
-The project followed a structured lifecycle to ensure that **infrastructure stability** and **data quality** were validated before business logic execution.
+O projeto seguiu um ciclo estruturado para garantir que a <b>estabilidade da infraestrutura</b> e a <b>qualidade dos dados</b> fossem validadas antes da execução da lógica de negócio.
 
 ```mermaid
 graph TD
@@ -33,198 +30,198 @@ graph TD
     classDef code fill:#00b894,stroke:#fff,stroke-width:2px,color:#fff;
     classDef deliver fill:#fdcb6e,stroke:#333,stroke-width:2px,color:#333;
 
-    subgraph Timeline [Project Lifecycle]
+    subgraph Timeline [Ciclo de Vida do Projeto]
         direction TB
-        Z(0. Conceptual Foundation & Study):::study --> A(1. Planning & Architecture):::planning
-        A --> B(2. Docker Infrastructure & MinIO):::infra
-        B --> C(3. Ingestion – Bronze Layer):::code
-        C --> D(4. Testing Framework & Data Quality):::code
-        D --> E(5. Processing & LGPD – Silver Layer):::code
-        E --> F(6. KPI Aggregation – Gold Layer):::code
-        F --> G(7. Documentation & Delivery):::deliver
+        Z(0. Fundamentos Conceituais & Estudo do Domínio):::study --> A(1. Planejamento & Arquitetura):::planning
+        A --> B(2. Infraestrutura Docker & MinIO):::infra
+        B --> C(3. Ingestão – Camada Bronze):::code
+        C --> D(4. Framework de Testes & Qualidade de Dados):::code
+        D --> E(5. Processamento & LGPD – Camada Silver):::code
+        E --> F(6. Agregação de KPIs – Camada Gold):::code
+        F --> G(7. Documentação & Entrega):::deliver
     end
 ```
----
-## 📖 Conceptual Background
 
-> *“Data engineering is a set of operations aimed at creating interfaces and mechanisms for the flow and access of information.  
-> It takes dedicated specialists — data engineers — to maintain data so that it remains available and usable by others.  
-> In short, data engineers set up and operate the organization’s data infrastructure, preparing it for further analysis by data analysts and scientists.”*  
+## 📖 Contexto Conceitual
+
+> “A engenharia de dados é um conjunto de operações destinadas a criar interfaces e mecanismos para o fluxo e o acesso à informação.  
+> São necessários especialistas dedicados — engenheiros de dados — para manter os dados disponíveis e utilizáveis por outros.  
+> Em suma, os engenheiros de dados criam e operam a infraestrutura de dados da organização, preparando-a para análises posteriores por analistas e cientistas de dados.”
 >
-> — **AltexSoft**, *Data Engineering Concepts, Processes, and Tools*  
-> (Cited in **Fundamentals of Data Engineering**, O’Reilly)
+> — **AltexSoft**, *Data Engineering Concepts, Processes, and Tools* (citado em *Fundamentos de Engenharia de Dados*, O’Reilly)
 
-This project was designed to reflect this definition in practice, with a strong focus on **data availability**, **reliability**, **quality**, and **readiness for analytical consumption**.
+Este projeto foi concebido para refletir essa definição na prática, com foco em **disponibilidade dos dados**, **confiabilidade**, **qualidade** e **prontidão para consumo analítico**.
 
-## 🏗️ Data Pipeline Overview (Architecture)
 
-Below is the abstract view of the data flow. The pipeline follows the Medallion Architecture, where data is progressively refined across layers.
 
+## 🏗️ Visão Geral do Pipeline de Dados (Arquitetura)
+
+Abaixo está a visão abstrata do fluxo de dados. O pipeline segue a <b>Arquitetura Medallion</b>, onde os dados são refinados progressivamente a cada camada.
+
+---
 ```mermaid
 flowchart LR
-    %% Nós
-    Generator(["Data Generator (Python Faker)"])
+    Generator(["Gerador de Dados (Python Faker)"])
 
-    %% Subgraph Lakehouse
-    subgraph Lakehouse ["Data Lakehouse - MinIO S3"]
+    subgraph Lakehouse ["Data Lakehouse - MinIO"]
         direction LR
-        Bronze[("Bronze Layer (Raw JSON)")]
-        Silver[("Silver Layer (Trusted Parquet)")]
-        Gold[("Gold Layer (Refined KPIs)")]
+        Bronze[("Camada Bronze (JSON Bruto)")]
+        Silver[("Camada Silver (Parquet Confiável)")]
+        Gold[("Camada Gold (KPIs Refinados)")]
     end
 
-    %% Subgraph Processamento
-    subgraph Processing ["Spark Cluster - Docker"]
+    subgraph Processing ["Cluster Spark - Docker"]
         direction LR
-        Ingestor[("Ingestion")]
-        Transformer[("Transformation Engine (Data Quality + LGPD)")]
-        Aggregator[("Business Aggregation")]
+        Ingestor[("Ingestão")]
+        Transformer[("Motor de Transformação (Qualidade + LGPD)")]
+        Aggregator[("Agregação de Negócio")]
     end
 
-    %% Fluxo
     Generator --> Ingestor
-    Ingestor -->|Raw Write| Bronze
+    Ingestor -->|Escrita Bruta| Bronze
     
-    Bronze -->|Read| Transformer
-    Transformer -->|Clean Write| Silver
+    Bronze -->|Leitura| Transformer
+    Transformer -->|Escrita Limpa| Silver
     
-    Silver -->|Read| Aggregator
-    Aggregator -->|Agg Write| Gold
-
+    Silver -->|Leitura| Aggregator
+    Aggregator -->|Escrita Agregada| Gold
 ```
-## 🏛️ Architectural Context and Rationale
+## 🏛️ Contexto Arquitetural e Justificativa
 
-The adoption of the **Lakehouse / Medallion** architecture in this project was **not arbitrary**. It results from a comparative study of modern data architectures, grounded in criteria such as **cost, operational complexity, and breadth of use cases**, as discussed by **James Serra** in *Deciphering Data Architectures* (O’Reilly), alongside core principles from *Fundamentals of Data Engineering* (O’Reilly).
+A adoção da arquitetura **Lakehouse / Medallion** neste projeto **não foi arbitrária**. Ela decorre de um estudo comparativo entre arquiteturas modernas de dados, fundamentado nos critérios de **custo, complexidade operacional e amplitude de casos de uso**, conforme discutido por **James Serra** em *Decifrando Arquiteturas de Dados* (O’Reilly), além de conceitos consolidados em *Fundamentos de Engenharia de Dados* (O’Reilly).
 
-### ❌ Why not a traditional Data Warehouse?
-Although Data Warehouses provide **low latency and strong consistency**, they typically involve **high licensing and maintenance costs** and offer **limited support for semi-structured, unstructured data and advanced analytical workloads**, such as Machine Learning and Data Science.
+### ❌ Por que não um Data Warehouse tradicional?
+Embora Data Warehouses ofereçam **baixa latência e forte consistência**, apresentam **alto custo de licenciamento e manutenção**, além de **limitações para dados semiestruturados, não estruturados e workloads analíticos avançados**, como Machine Learning e Data Science.
 
-### ❌ Why not a pure Data Lake?
-Despite the **low cost of object storage**, pure Data Lakes often suffer from **weak governance, limited semantic structure, and inconsistent data quality**, leading to the well-known *Data Swamp* problem, which hinders reliable analytical consumption.
+### ❌ Por que não apenas um Data Lake?
+Apesar do **baixo custo de armazenamento em objetos**, Data Lakes puros tendem a sofrer com **falta de governança, semântica e controle de qualidade**, levando ao conhecido fenômeno de *Data Swamp*, o que dificulta o consumo analítico confiável.
 
-### ❌ Why not Data Mesh or Data Fabric?
-Architectures such as **Data Mesh** and **Data Fabric** are conceptually powerful but require **high organizational maturity**, **well-defined data domains**, **decentralized teams**, and a broad set of technical and cultural skills. According to Serra, these approaches introduce **high operational complexity**, which would exceed the intended scope and objectives of this project.
+### ❌ Por que não Data Mesh ou Data Fabric?
+Arquiteturas como **Data Mesh** e **Data Fabric** são conceitualmente robustas, porém exigem **alta maturidade organizacional**, **domínios bem definidos**, **times descentralizados** e um conjunto amplo de habilidades técnicas e culturais — classificados por Serra como arquiteturas de **alta complexidade operacional**. Esses requisitos extrapolariam o escopo e os objetivos deste projeto.
+
 ---
 
-### 🏆 The Choice: Lakehouse with Medallion Architecture
+### 🏆 A Escolha: Lakehouse com Arquitetura Medallion
 
-The **Lakehouse** architecture, structured using the **Medallion pattern (Bronze, Silver, and Gold)**, was selected for representing the **optimal technical balance** for the simulated corporate scenario addressed in this case:
+A arquitetura **Lakehouse**, estruturada no padrão **Medallion (Bronze, Silver e Gold)**, foi selecionada por representar o **melhor equilíbrio técnico** para o cenário corporativo simulado neste case:
 
-1. **Cost Efficiency:** Low-cost, scalable object storage (MinIO / S3-compatible).
-2. **Analytical Versatility:** Supports both traditional BI workloads and Data Science / Machine Learning use cases.
-3. **Pragmatic Governance:** Layered data organization promotes quality, traceability, and progressive data refinement without the excessive rigidity of legacy Data Warehouses.
+1. **Custo-Eficiência:** Uso de armazenamento em objetos (MinIO/S3-compatible) com baixo custo e alta escalabilidade.
+2. **Versatilidade Analítica:** Suporte tanto a BI tradicional quanto a workloads de Ciência de Dados e Machine Learning.
+3. **Governança Pragmática:** Organização em camadas promove qualidade, rastreabilidade e evolução progressiva dos dados, sem a rigidez excessiva de um Data Warehouse legado.
 
-This approach reflects practices widely adopted in modern enterprise environments, balancing **architectural robustness**, **operational simplicity**, and **alignment with the project’s objectives**.
+Essa abordagem reflete práticas amplamente adotadas em ambientes corporativos modernos, conciliando **robustez arquitetural**, **simplicidade operacional** e **aderência aos objetivos do projeto**.
 
-> *Although the implementation was consolidated over a short period, this project is the result of more than a year of continuous study and preparation in Data Engineering, with consciously made and well-founded architectural decisions.*
+> *Embora a implementação tenha sido consolidada em um curto período, este projeto é resultado de mais de um ano de estudo contínuo e preparação em Engenharia de Dados, refletindo decisões arquiteturais conscientes e fundamentadas.*
+
+---
+
+## 🧠 Engenharia: Decisões Arquiteturais e Trade-offs
+
+Este projeto foi desenhado simulando um cenário real, onde cada escolha técnica visou resolver um problema específico de negócio ou infraestrutura.
+
+| Decisão | O Problema | A Solução Adotada | Por que não a alternativa? |
+| :--- | :--- | :--- | :--- |
+| **Containerização Total** | O ambiente Windows frequentemente conflita com bibliotecas Hadoop/Spark nativas do Linux (`winutils.exe`). | **Docker & Docker Compose.** Criamos um ambiente Linux isolado que roda o Spark de forma nativa. | Rodar localmente no Windows traria instabilidade e dificultaria a reprodução do projeto em outras máquinas ("Works on my machine"). |
+| **MinIO (S3)** | Necessidade de simular um Data Lake em nuvem sem gerar custos de AWS/Azure. | **MinIO Server.** Ele utiliza exatamente a mesma API do Amazon S3 (`boto3` / `s3a://`). | Usar o sistema de arquivos local (`file://`) não prepararia o código para uma migração real para a nuvem (Cloud Native). |
+| **Orquestração Customizada** | Pipelines de dados precisam de tratamento de erro, logs e dependência entre tarefas. | **Script Python (`pipeline.py`).** Controle total do fluxo de execução com `try/catch` e logs estruturados. | **Por que não Airflow neste momento?** Para este escopo, subir um cluster Airflow (Webserver + Scheduler + Worker) adicionaria um *overhead* de infraestrutura desnecessário. A lógica atual é facilmente portável para uma DAG no futuro. |
+| **Formato Parquet** | Armazenamento de Big Data requer compressão e leitura eficiente. | **Apache Parquet (Snappy).** Padrão de mercado para Analytics. | CSVs não mantêm schema (tipagem) e são lentos para leitura. O Parquet garante performance na camada Silver/Gold. |
+
+---
+## 🔮 Roadmap e Melhorias Futuras
+
+O desenvolvimento de software é iterativo. Abaixo, listo as evoluções planejadas para levar este projeto ao próximo nível de maturidade (Enterprise Level).
+
+* [ ] **Migração para Delta Lake:**
+    * *Objetivo:* Implementar transações ACID e *Time Travel*.
+    * *Contexto:* Atualmente utilizo **Parquet** padrão para demonstrar o domínio da manipulação de arquivos brutos no Spark, mas a evolução natural do Lakehouse é o formato Delta para garantir *Schema Enforcement*.
+* [ ] **Orquestração com Airflow:**
+    * *Objetivo:* Monitoramento visual, retries automáticos e backfilling.
+    * *Contexto:* A lógica de orquestração já está desacoplada no script `src/pipeline.py`, o que facilita a migração para `PythonOperator` ou `SparkSubmitOperator` dentro de uma DAG do Airflow.
+* [ ] **CI/CD (GitHub Actions):**
+    * *Objetivo:* Automatizar a execução dos testes (`pytest`) a cada Push ou Pull Request.
+* [ ] **Dashboarding:**
+    * *Objetivo:* Conectar o Power BI ou Metabase diretamente ao MinIO (via Thrift Server ou Presto) para consumir a camada Gold.
+
+---
+
+## 🛡️ Diferenciais do Projeto
+### 1. Qualidade de Dados como Prioridade
+
+Diferente de pipelines tradicionais que apenas movimentam dados, este projeto impõe portões explícitos de qualidade.
+
+Testes Unitários: lógica de transformação validada com pytest
+
+Validação em Runtime: valores críticos nulos ou negativos são bloqueados antes da promoção para Silver
+
+### 2. Privacidade & Conformidade com LGPD
+
+Implementação prática do conceito Privacy by Design.
+
+Camada Bronze: dados brutos e sensíveis
+
+Camada Silver: dados anonimizados
+
+Exemplos:
+
+CPF → *** *** ***-XX
+
+Cartão de Crédito → **** **** **** 1234
+
+### 3. Infraestrutura Totalmente Containerizada
+
+O mesmo pipeline executa de forma idêntica em:
+
+Windows
+
+Linux
+
+Ambientes Cloud
+
+Eliminando o clássico problema: <b>“na minha máquina funciona”</b>.
 
 
-## 🧠 Engineering: Architectural Decisions & Trade-offs
-This project was designed to simulate a real-world scenario, where each technical decision was made to solve a specific business or infrastructure problem.
 
-| Decision                  | The Problem                                                                                        | Adopted Solution                                                                                                    | Why not the alternative?                                                                                                                                                                                             |
-| :------------------------ | :------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------ | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Full Containerization** | The Windows environment often conflicts with native Linux Hadoop/Spark libraries (`winutils.exe`). | **Docker & Docker Compose.** We created an isolated Linux environment where Spark runs natively.                    | Running Spark directly on Windows would introduce instability and make the project harder to reproduce across different machines (“works on my machine” issue).                                                      |
-| **MinIO (S3)**            | The need to simulate a cloud-based Data Lake without incurring AWS/Azure costs.                    | **MinIO Server.** It uses the exact same API as Amazon S3 (`boto3` / `s3a://`).                                     | Using the local filesystem (`file://`) would not prepare the codebase for a real cloud migration (Cloud Native approach).                                                                                            |
-| **Custom Orchestration**  | Data pipelines require error handling, logging, and task dependencies.                             | **Python script (`pipeline.py`).** Full control over execution flow with `try/catch` blocks and structured logging. | **Why not Airflow yet?** For this scope, deploying a full Airflow stack (Webserver + Scheduler + Worker) would add unnecessary infrastructure overhead. The current logic is easily portable to a DAG in the future. |
-| **Parquet File Format**   | Big Data storage requires compression and efficient read performance.                              | **Apache Parquet (Snappy).** Industry standard for analytics workloads.                                             | CSV files do not enforce schema (data types) and are inefficient for analytical reads. Parquet ensures high performance in the Silver and Gold layers.                                                               |
+## 🚀 Como Executar o Projeto
+### Pré-requisitos
 
-## 🔮 Roadmap & Future Improvements
-
-Software development is iterative. Below are the planned enhancements to bring this project to the next level of maturity (Enterprise Level).
-
-* [ ] **Migration to Delta Lake**
-    * *Goal:* Enable ACID transactions and *Time Travel*.
-    * *Context:* The project currently uses standard **Parquet** to demonstrate hands-on control over raw Spark file handling. However, the natural evolution of a Lakehouse architecture is Delta Lake, which provides *Schema Enforcement* and transactional guarantees.
-
-* [ ] **Orchestration with Airflow**
-    * *Goal:* Visual monitoring, automated retries, and backfilling.
-    * *Context:* The orchestration logic is already decoupled within the `src/pipeline.py` script, making it straightforward to migrate to `PythonOperator` or `SparkSubmitOperator` inside an Airflow DAG.
-
-* [ ] **CI/CD (GitHub Actions)**
-    * *Goal:* Automatically run unit tests (`pytest`) on every push or pull request.
-
-* [ ] **Dashboarding**
-    * *Goal:* Connect Power BI or Metabase directly to MinIO (via Thrift Server or Presto) to consume data from the Gold layer.
-
-## 🛡️ Project Differentiators
-
-### 1. Data Quality First
-
-Unlike traditional pipelines that only move data, this project enforces explicit quality gates.
-
-Unit Tests: Transformation logic validated with pytest.
-
-Runtime Validation: Critical null or negative values are blocked before promotion to Silver.
-
-### 2. Privacy & LGPD Compliance
-
-Practical implementation of Privacy by Design.
-
-Bronze Layer: Raw and restricted data.
-
-Silver Layer: Anonymized data:
-
-CPF: *** *** ***-XX
-
-Credit Card: **** **** **** 1234
-
-### 3. Fully Containerized Infrastructure
-
-The same pipeline runs identically on:
-
-Windows laptops
-
-Linux servers
-
-Cloud environments
-
-Eliminating the classic “works on my machine” issue.
-
-## 🚀 How to Run the Project
-Prerequisites
-
-Docker Desktop (running)
+Docker Desktop (em execução)
 
 Git
 
-Steps
-
-### Clone the repository
+### Clonar o repositório
 ```
 git clone https://github.com/arthurgmv/projeto_data_masters.git
 cd projeto_data_masters
 ```
 
-### Start the infrastructure
+### Subir a infraestrutura
 ```
 docker-compose up -d
 ```
-### Install dependencies inside the Spark cluster
+### Instalar dependências no cluster Spark
 ```
 docker exec spark_master pip install boto3 python-dotenv pytest faker colorama pyspark
 ```
-### Run data quality tests
+### Executar testes de qualidade de dados
 ```
 docker exec spark_master pytest -v /app/tests/
 ```
-### Execute the full pipeline
+### Executar o pipeline completo
 ```
 docker exec spark_master python3 src/pipeline.py
 ```
-## 📊 Accessing Data
+## 📊 Acesso aos Dados
 
-<b>MinIO Console (Data Lake)</b>: http://localhost:9001
+<b>Console do MinIO (Data Lake)</b>
+http://localhost:9001
 
-<b>User</b>: 
-admin
-<b>Password</b>: 
-minioadmin
+<b>Usuário</b>: admin
 
-<b>Spark Master UI</b>: http://localhost:8080
+<b>Senha</b>: minioadmin
 
-## 📞 Contact
+<b>Spark Master UI</b>
+http://localhost:8080
 
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-Arthur%20Gabriel-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/arthur-gabriel-de-menezes-viana-1223a6239/)
+## 📞 Contato
 
-
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Arthur%20Gabriel-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)]([https://www.linkedin.com/in/arthur-gabriel-de-menezes-viana-4b0690201/](https://www.linkedin.com/in/arthur-gabriel-de-menezes-viana-1223a6239/))
