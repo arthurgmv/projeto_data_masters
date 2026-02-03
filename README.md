@@ -199,9 +199,6 @@ O projeto utiliza variáveis de ambiente para garantir a segurança das credenci
 # Linux / Mac
 cp .env.example .env
 
-<<<<<<< HEAD
-### Start the infrastructure
-=======
 # Windows (Prompt de Comando / PowerShell)
 copy .env.example .env
 ```
