@@ -10,6 +10,7 @@ os.environ['PYSPARK_DRIVER_PYTHON'] = sys.executable
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 from data_quality import DataQuality
+from ui import print_tab
 
 load_dotenv()
 
@@ -101,7 +102,9 @@ def processar_silver():
         print(f"💾 Salvando dados tratados em: {path_silver}")
         df_silver.write.mode("overwrite").parquet(path_silver)
         print("✅ Gravação no MinIO concluída!")
-        df_silver.show(5, truncate=False)
+
+        print_tab(df_silver, "SILVER (Dados Tratados/LGPD)")
+        
     except Exception as e:
         print(f"❌ Erro ao gravar no MinIO: {e}")
 

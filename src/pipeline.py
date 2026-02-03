@@ -5,7 +5,9 @@ import sys
 import os
 from colorama import init, Fore, Style
 
-init(autoreset=True)
+# 🔧 ALTERAÇÃO 1: Adicionamos strip=False. 
+# Isso força o colorama a emitir códigos ANSI mesmo se detectar que não está num TTY (Terminal).
+init(autoreset=True, strip=False)
 
 logging.basicConfig(level=logging.INFO, format='%(message)s')
 logger = logging.getLogger()
@@ -22,8 +24,13 @@ def run_task(script_name, step_name):
     start_time = time.time()
     script_path = os.path.join("src", script_name)
     
+    my_env = os.environ.copy()
+    my_env["FORCE_COLOR"] = "1"       # Padrão moderno
+    my_env["CLICOLOR_FORCE"] = "1"    # Padrão Unix/Linux
+    my_env["PYTHONUNBUFFERED"] = "1"  # Garante que os logs saiam em tempo real
+    
     try:
-        subprocess.run([sys.executable, script_path], check=True)
+        subprocess.run([sys.executable, script_path], check=True, env=my_env)
         
         duration = time.time() - start_time
         

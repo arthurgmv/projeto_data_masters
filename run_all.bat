@@ -1,38 +1,34 @@
 @echo off
-echo ==========================================
+chcp 65001 > nul
+echo ========================================================
 echo 🐳 1. INICIANDO INFRAESTRUTURA (DOCKER)
-echo ==========================================
+echo ========================================================
 docker-compose up -d
-echo.
-echo ⏳ Aguardando 5 segundos para o MinIO subir...
-timeout /t 5 >nul
 
 echo.
-echo ==========================================
-echo 🥉 2. EXECUTANDO CAMADA BRONZE (INGESTAO)
-echo ==========================================
-py src/ingestao.py
+echo ⏳ Aguardando serviços iniciarem (10s)...
+timeout /t 10 >nul
 
 echo.
-echo ==========================================
-echo 🥈 3. EXECUTANDO CAMADA SILVER (PROCESSAMENTO)
-echo ==========================================
-py src/processamento.py
+echo ========================================================
+echo 📦 2. INSTALANDO DEPENDENCIAS (NO CLUSTER)
+echo ========================================================
+docker exec spark_master pip install boto3 python-dotenv pytest faker colorama pyspark
 
 echo.
-echo ==========================================
-echo 🥇 4. EXECUTANDO CAMADA GOLD (INTELIGENCIA)
-echo ==========================================
-py src/gold.py
+echo ========================================================
+echo 🧪 3. EXECUTANDO TESTES DE QUALIDADE
+echo ========================================================
+docker exec -t spark_master pytest -v /app/tests/
 
 echo.
-echo ==========================================
-echo 🔍 5. AUDITORIA FINAL (LEITURA)
-echo ==========================================
-py src/leitor.py
+echo ========================================================
+echo 🚀 4. INICIANDO PIPELINE DE DADOS (ORQUESTRADOR)
+echo ========================================================
+docker exec -t spark_master python3 src/pipeline.py
 
 echo.
-echo ==========================================
-echo ✅ PIPELINE FINALIZADO COM SUCESSO!
-echo ==========================================
+echo ========================================================
+echo ✅ PROCESSO FINALIZADO!
+echo ========================================================
 pause
