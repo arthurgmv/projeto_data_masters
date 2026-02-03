@@ -193,13 +193,21 @@ Git
 git clone https://github.com/arthurgmv/projeto_data_masters.git
 cd projeto_data_masters
 ```
-### Configure Environment Variables (Crucial Step) ⚠️
-The project relies on environment variables for security. You must create a .env file based on the provided example.
+### Configurar Variáveis de Ambiente (Passo Crucial) ⚠️
+O projeto utiliza variáveis de ambiente para garantir a segurança das credenciais. Você deve criar um arquivo `.env` baseado no exemplo fornecido.
 ```
 # Linux / Mac
 cp .env.example .env
 
+<<<<<<< HEAD
 ### Start the infrastructure
+=======
+# Windows (Prompt de Comando / PowerShell)
+copy .env.example .env
+```
+
+### Subir a infraestrutura
+>>>>>>> d297535b07ef79b40708cca787d5e5e39388e51c
 ```
 docker-compose up -d
 ```
