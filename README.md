@@ -207,7 +207,6 @@ copy .env.example .env
 ```
 
 ### Subir a infraestrutura
->>>>>>> d297535b07ef79b40708cca787d5e5e39388e51c
 ```
 docker-compose up -d
 ```
